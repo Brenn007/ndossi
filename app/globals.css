@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;0,6..96,800;0,6..96,900;1,6..96,400;1,6..96,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   CSS VARIABLES / DESIGN TOKENS
+   ============================================ */
+:root {
+  --color-cream: #FAF7F2;
+  --color-terracotta: #C4622D;
+  --color-gold: #D4A853;
+  --color-chocolate: #3B1F0E;
+  --color-dark: #1A0A00;
+
+  --font-playfair: 'Bodoni Moda', Georgia, serif;
+  --font-dm: 'DM Sans', system-ui, sans-serif;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-dark);
+  font-family: var(--font-dm);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Hide default cursor on desktop */
+@media (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
+
+/* ============================================
+   LENIS SMOOTH SCROLL
+   ============================================ */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+.font-playfair {
+  font-family: var(--font-playfair);
+}
+
+.font-dm {
+  font-family: var(--font-dm);
+}
+
+/* ============================================
+   SELECTION
+   ============================================ */
+::selection {
+  background: var(--color-terracotta);
+  color: var(--color-cream);
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-terracotta);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold);
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.section-padding {
+  @apply py-20 sm:py-32;
+}
+
+.container-default {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.heading-xl {
+  @apply font-playfair text-5xl sm:text-6xl md:text-7xl font-bold leading-tight;
+}
+
+.heading-lg {
+  @apply font-playfair text-3xl sm:text-4xl md:text-5xl font-bold;
+}
+
+.heading-md {
+  @apply font-playfair text-2xl sm:text-3xl font-bold;
+}
+
+.body-text {
+  @apply font-dm text-base leading-relaxed;
+}
+
+.label-text {
+  @apply font-dm text-xs tracking-[0.3em] uppercase;
+}
+
+/* ============================================
+   GRADIENT PLACEHOLDERS FOR GALLERY
+   ============================================ */
+.gradient-1 {
+  background: linear-gradient(135deg, #3B1F0E 0%, #C4622D 50%, #D4A853 100%);
+}
+
+.gradient-2 {
+  background: linear-gradient(135deg, #1A0A00 0%, #3B1F0E 50%, #C4622D 100%);
+}
+
+.gradient-3 {
+  background: linear-gradient(135deg, #C4622D 0%, #D4A853 50%, #FAF7F2 100%);
+}
+
+.gradient-4 {
+  background: linear-gradient(135deg, #3B1F0E 0%, #1A0A00 50%, #C4622D 100%);
+}
+
+.gradient-5 {
+  background: linear-gradient(135deg, #D4A853 0%, #C4622D 50%, #3B1F0E 100%);
+}
+
+.gradient-6 {
+  background: linear-gradient(135deg, #1A0A00 0%, #C4622D 50%, #D4A853 100%);
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
