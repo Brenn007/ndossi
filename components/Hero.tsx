@@ -100,17 +100,6 @@ export default function Hero() {
         className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4"
         style={{ y: textY, opacity }}
       >
-        {/* Pill badge */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 1.8 }}
-          className="mb-6 inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-gold/20 rounded-full px-4 py-1.5"
-        >
-          <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-          <span className="text-gold font-dm text-xs tracking-[0.25em] uppercase">Salon Afro Spécialisé · Toulouse</span>
-        </motion.div>
-
         {/* Tagline */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -199,25 +188,6 @@ export default function Hero() {
               >→</motion.span>
             </motion.button>
           </Link>
-        </motion.div>
-
-        {/* Stats strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 3.0, duration: 0.6 }}
-          className="absolute bottom-20 left-1/2 -translate-x-1/2 flex items-center gap-8 sm:gap-12"
-        >
-          {[
-            { value: '200+', label: 'Clientes' },
-            { value: '5 ans', label: 'Expérience' },
-            { value: '15+', label: 'Styles' },
-          ].map((stat, i) => (
-            <div key={i} className="flex flex-col items-center">
-              <span className="font-playfair text-xl font-bold text-gold">{stat.value}</span>
-              <span className="font-dm text-xs text-cream/40 tracking-wider uppercase">{stat.label}</span>
-            </div>
-          ))}
         </motion.div>
 
         {/* Scroll indicator */}
