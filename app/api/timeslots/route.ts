@@ -17,7 +17,7 @@ export async function GET() {
       },
     })
 
-    const formatted = slots.map((slot) => ({
+    const formatted = slots.map((slot: typeof slots[number]) => ({
       id: slot.id,
       date: slot.date,
       startTime: slot.startTime,
