@@ -201,22 +201,22 @@ function HommeTable({ prestation, index }: { prestation: typeof hommesPrestation
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.55, delay: shouldReduce ? 0 : index * 0.1 }}
-      className="rounded-2xl overflow-hidden border border-chocolate/8"
+      className="rounded-2xl overflow-hidden border border-white/8"
     >
-      <div className="px-6 py-4 flex items-center gap-3 bg-dark/3">
+      <div className="px-6 py-4 flex items-center gap-3 bg-white/5">
         <span className="text-terracotta text-xl">{prestation.icon}</span>
-        <h3 className="font-playfair text-lg font-bold text-dark">{prestation.name}</h3>
+        <h3 className="font-playfair text-lg font-bold text-cream">{prestation.name}</h3>
       </div>
       <table className="w-full">
         <tbody>
           {prestation.rows.map((row, i) => (
             <tr
               key={row.label}
-              className={`border-b border-chocolate/5 last:border-0 hover:bg-terracotta/5 transition-colors duration-200 ${
-                i % 2 === 0 ? '' : 'bg-dark/2'
+              className={`border-b border-white/5 last:border-0 hover:bg-terracotta/8 transition-colors duration-200 ${
+                i % 2 === 0 ? '' : 'bg-white/2'
               }`}
             >
-              <td className="px-6 py-3.5 font-dm text-sm text-dark/70">{row.label}</td>
+              <td className="px-6 py-3.5 font-dm text-sm text-cream/70">{row.label}</td>
               <td className="px-6 py-3.5 text-right">
                 <span className="font-playfair text-xl font-bold text-terracotta">{row.price}€</span>
               </td>
