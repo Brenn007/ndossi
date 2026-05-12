@@ -4,6 +4,7 @@ import { useState, useRef } from 'react'
 import { motion, AnimatePresence, useInView, useReducedMotion } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import PageBanner from '@/components/PageBanner'
 
 interface GalleryItem {
   id: number
@@ -182,38 +183,11 @@ export default function GaleriePage() {
         )}
       </AnimatePresence>
 
-      {/* Page header */}
-      <div className="relative bg-dark pt-28 pb-16 mb-14 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <svg width="100%" height="100%">
-            <defs>
-              <pattern id="gal-hero" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
-                <path d="M25 0 Q37 12 25 25 Q13 37 25 50" stroke="#D4A853" strokeWidth="0.5" fill="none" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#gal-hero)" />
-          </svg>
-        </div>
-        <div className="relative max-w-4xl mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-8 h-px bg-gold" />
-              <span className="text-gold font-dm text-xs tracking-[0.3em] uppercase">Nos Réalisations</span>
-              <div className="w-8 h-px bg-gold" />
-            </div>
-            <h1 className="font-playfair text-4xl sm:text-5xl text-cream font-bold mb-4">
-              La Galerie
-            </h1>
-            <p className="font-dm text-cream/60 text-lg">
-              Découvrez nos créations et laissez-vous inspirer.
-            </p>
-          </motion.div>
-        </div>
-      </div>
+      <PageBanner
+        label="Nos Réalisations"
+        title="La Galerie"
+        subtitle="Découvrez nos créations et laissez-vous inspirer."
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Filter tabs */}

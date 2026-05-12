@@ -7,6 +7,7 @@ import { format, isSameDay, startOfDay } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { ChevronLeft, ChevronRight, Check, Loader2 } from 'lucide-react'
 import { cn, SERVICES } from '@/lib/utils'
+import PageBanner from '@/components/PageBanner'
 
 interface TimeSlot {
   id: string
@@ -113,37 +114,12 @@ export default function ReserverPage() {
 
   return (
     <div className="min-h-screen bg-cream pb-20">
-      {/* Hero banner */}
-      <div className="relative bg-dark pt-28 pb-16 mb-16 overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <svg width="100%" height="100%">
-            <defs>
-              <pattern id="rsv-pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-                <circle cx="20" cy="20" r="1" fill="#D4A853" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#rsv-pattern)" />
-          </svg>
-        </div>
-        <div className="relative max-w-4xl mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-8 h-px bg-gold" />
-              <span className="text-gold font-dm text-xs tracking-[0.3em] uppercase">Réservation en ligne</span>
-              <div className="w-8 h-px bg-gold" />
-            </div>
-            <h1 className="font-playfair text-4xl sm:text-5xl text-cream font-bold mb-4">
-              Prendre rendez-vous
-            </h1>
-            <p className="font-dm text-cream/60 text-lg max-w-lg mx-auto">
-              Choisissez votre créneau parmi les disponibilités, puis remplissez le formulaire.
-            </p>
-          </motion.div>
-        </div>
+      <div className="mb-16">
+        <PageBanner
+          label="Réservation en ligne"
+          title="Prendre rendez-vous"
+          subtitle="Choisissez votre créneau parmi les disponibilités, puis remplissez le formulaire."
+        />
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">

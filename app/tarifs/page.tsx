@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import Link from 'next/link'
 import { motion, useInView, useReducedMotion } from 'framer-motion'
+import PageBanner from '@/components/PageBanner'
 
 const lengths = ['Épaules', 'Mi-dos', 'Bas du dos', 'Fesses']
 
@@ -234,53 +235,21 @@ export default function TarifsPage() {
   return (
     <div className="min-h-screen bg-cream">
 
-      {/* Hero header */}
-      <div className="relative bg-dark py-20 overflow-hidden">
-        <div className="absolute inset-0 opacity-8">
-          <svg width="100%" height="100%">
-            <defs>
-              <pattern id="tarifs-hero" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
-                <path d="M25 0 Q37 12 25 25 Q13 37 25 50" stroke="#D4A853" strokeWidth="0.5" fill="none" />
-                <path d="M0 25 Q12 13 25 25 Q37 37 50 25" stroke="#C4622D" strokeWidth="0.5" fill="none" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#tarifs-hero)" />
-          </svg>
-        </div>
-        <div className="absolute top-0 right-0 w-80 h-80 bg-terracotta/8 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-gold/6 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative max-w-4xl mx-auto px-4 text-center pt-28">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-8 h-px bg-gold" />
-              <span className="text-gold font-dm text-xs tracking-[0.3em] uppercase">ndossi_hair · Toulouse</span>
-              <div className="w-8 h-px bg-gold" />
-            </div>
-            <h1 className="font-playfair text-4xl sm:text-5xl lg:text-6xl text-cream font-bold mb-4">
-              Nos Tarifs
-            </h1>
-            <p className="font-dm text-cream/50 text-base sm:text-lg max-w-lg mx-auto">
-              Des prix clairs pour chaque style. Les tarifs varient selon la longueur et la taille des tresses.
-            </p>
-          </motion.div>
-
-          {/* Tab indicators */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex items-center justify-center gap-3 mt-8"
-          >
-            <a href="#femmes" className="px-5 py-2 rounded-full bg-terracotta text-cream font-dm text-sm tracking-wider">Femmes</a>
-            <a href="#hommes" className="px-5 py-2 rounded-full bg-white/8 border border-white/15 text-cream/70 hover:text-cream font-dm text-sm tracking-wider transition-colors duration-300">Hommes</a>
-          </motion.div>
-        </div>
-      </div>
+      <PageBanner
+        label="ndossi_hair · Toulouse"
+        title="Nos Tarifs"
+        subtitle="Des prix clairs pour chaque style. Les tarifs varient selon la longueur et la taille des tresses."
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="flex items-center justify-center gap-3 mt-8"
+        >
+          <a href="#femmes" className="px-5 py-2 rounded-full bg-terracotta text-cream font-dm text-sm tracking-wider">Femmes</a>
+          <a href="#hommes" className="px-5 py-2 rounded-full bg-white/8 border border-white/15 text-cream/70 hover:text-cream font-dm text-sm tracking-wider transition-colors duration-300">Hommes</a>
+        </motion.div>
+      </PageBanner>
 
       {/* Note tarifaire */}
       <motion.div
