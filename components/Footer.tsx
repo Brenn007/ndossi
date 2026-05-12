@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Instagram, MapPin, Phone, Mail, Clock } from 'lucide-react'
+import { Instagram, MapPin } from 'lucide-react'
 
 const navLinks = [
   { href: '/', label: 'Accueil' },
@@ -20,12 +20,6 @@ const services = [
   'Tresses Homme',
 ]
 
-const contactItems = [
-  { icon: MapPin, text: 'Toulouse, France', sub: 'Adresse communiquée par SMS' },
-  { icon: Phone, text: '+33 6 00 00 00 00', sub: 'Appels & WhatsApp' },
-  { icon: Mail, text: 'contact@ndossihair.fr', sub: null },
-  { icon: Clock, text: 'Mar–Sam : 9h–19h', sub: 'Sur rendez-vous uniquement' },
-]
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -56,20 +50,9 @@ export default function Footer() {
               <span className="font-playfair text-2xl font-bold text-cream">ndossi_hair</span>
               <p className="text-cream/35 font-dm text-xs tracking-[0.2em] uppercase mt-0.5">Salon de Coiffure Afro</p>
             </Link>
-            <p className="font-dm text-sm text-cream/40 leading-relaxed mb-6 max-w-xs">
+            <p className="font-dm text-sm text-cream/40 leading-relaxed max-w-xs">
               Spécialiste des tresses africaines à Toulouse. Un espace chaleureux où chaque coiffure est une œuvre d&apos;art.
             </p>
-            <motion.a
-              href="https://instagram.com/ndossi_hair"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-2.5 bg-white/5 hover:bg-terracotta/15 border border-white/8 hover:border-terracotta/30 text-cream/60 hover:text-terracotta px-4 py-2.5 rounded-full transition-all duration-300"
-            >
-              <Instagram size={15} />
-              <span className="font-dm text-xs tracking-wide">@ndossi_hair</span>
-            </motion.a>
           </motion.div>
 
           {/* Navigation */}
@@ -121,38 +104,33 @@ export default function Footer() {
           >
             <h4 className="font-playfair text-sm font-bold text-cream mb-5 tracking-wide">Contact & Infos</h4>
             <ul className="space-y-4">
-              {contactItems.map((item, i) => {
-                const Icon = item.icon
-                return (
-                  <li key={i} className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center shrink-0 mt-0.5">
-                      <Icon size={14} className="text-terracotta" />
-                    </div>
-                    <div>
-                      <p className="font-dm text-sm text-cream/70">{item.text}</p>
-                      {item.sub && (
-                        <p className="font-dm text-xs text-cream/30 mt-0.5">{item.sub}</p>
-                      )}
-                    </div>
-                  </li>
-                )
-              })}
+              <li className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center shrink-0 mt-0.5">
+                  <MapPin size={14} className="text-terracotta" />
+                </div>
+                <div>
+                  <p className="font-dm text-sm text-cream/70">Toulouse, France</p>
+                  <p className="font-dm text-xs text-cream/30 mt-0.5">Adresse communiquée par SMS</p>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center shrink-0 mt-0.5">
+                  <Instagram size={14} className="text-terracotta" />
+                </div>
+                <div>
+                  <motion.a
+                    href="https://instagram.com/ndossi_hair"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ color: '#C4622D' }}
+                    className="font-dm text-sm text-cream/70 transition-colors duration-300"
+                  >
+                    @ndossi_hair
+                  </motion.a>
+                  <p className="font-dm text-xs text-cream/30 mt-0.5">Instagram</p>
+                </div>
+              </li>
             </ul>
-
-            {/* CTA box */}
-            <div className="mt-8 p-5 rounded-2xl border border-terracotta/15 bg-terracotta/5">
-              <p className="font-playfair text-base font-bold text-cream mb-1">Prendre rendez-vous</p>
-              <p className="font-dm text-xs text-cream/40 mb-4">Réservez en ligne, confirmation immédiate.</p>
-              <Link href="/reserver">
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="bg-terracotta text-cream px-5 py-2.5 rounded-full font-dm text-xs tracking-wider uppercase hover:bg-terracotta-dark transition-colors duration-300"
-                >
-                  Réserver maintenant →
-                </motion.button>
-              </Link>
-            </div>
           </motion.div>
         </div>
       </div>
