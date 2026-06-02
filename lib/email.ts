@@ -1,6 +1,10 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+let _resend: Resend | null = null
+function getResend() {
+  if (!_resend) _resend = new Resend(process.env.RESEND_API_KEY)
+  return _resend
+}
 
 interface ConfirmationEmailParams {
   to: string
@@ -97,7 +101,7 @@ export async function sendConfirmationEmail(params: ConfirmationEmailParams) {
 </html>
   `.trim()
 
-  return resend.emails.send({
+  return getResend().emails.send({
     from: 'ndossi_hair <noreply@ndossihair.fr>',
     to,
     subject: 'Votre rendez-vous chez ndossi_hair est confirmé ✓',
