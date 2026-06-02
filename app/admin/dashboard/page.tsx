@@ -51,7 +51,7 @@ interface Reservation {
   id: string
   firstName: string
   lastName: string
-  phone: string
+  email: string
   service: string
   message: string
   status: string
@@ -677,7 +677,7 @@ export default function DashboardPage() {
                   </div>
                   <div className="space-y-1">
                     <p className="font-dm text-sm text-dark/70"><span className="text-dark/40">Service :</span> {res.service}</p>
-                    <p className="font-dm text-sm text-dark/70"><span className="text-dark/40">Tél :</span> {res.phone}</p>
+                    <p className="font-dm text-sm text-dark/70"><span className="text-dark/40">Email :</span> {res.email}</p>
                     {res.timeSlot && (
                       <p className="font-dm text-sm text-dark/70">
                         <span className="text-dark/40">Créneau :</span>{' '}

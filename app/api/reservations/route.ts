@@ -1,25 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { sendConfirmationEmail } from '@/lib/email'
+import { format } from 'date-fns'
+import { fr } from 'date-fns/locale'
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { firstName, lastName, phone, service, message, timeSlotId } = body
+    const { firstName, lastName, email, service, message, timeSlotId } = body
 
-    // Validate required fields
-    if (!firstName || !lastName || !phone || !service || !timeSlotId) {
-      return NextResponse.json(
-        { error: 'Champs obligatoires manquants' },
-        { status: 400 }
-      )
+    if (!firstName || !lastName || !email || !service || !timeSlotId) {
+      return NextResponse.json({ error: 'Champs obligatoires manquants' }, { status: 400 })
     }
 
-    // Check if slot exists and is available
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return NextResponse.json({ error: 'Adresse email invalide' }, { status: 400 })
+    }
+
     const slot = await prisma.timeSlot.findUnique({
       where: { id: timeSlotId },
-      include: {
-        reservations: { where: { status: 'confirmed' } },
-      },
+      include: { reservations: { where: { status: 'confirmed' } } },
     })
 
     if (!slot) {
@@ -27,30 +28,29 @@ export async function POST(req: NextRequest) {
     }
 
     if (!slot.isAvailable || slot.reservations.length > 0) {
-      return NextResponse.json(
-        { error: 'Ce créneau n\'est plus disponible' },
-        { status: 409 }
-      )
+      return NextResponse.json({ error: "Ce créneau n'est plus disponible" }, { status: 409 })
     }
 
-    // Create reservation and mark slot as unavailable
     const [reservation] = await prisma.$transaction([
       prisma.reservation.create({
-        data: {
-          firstName,
-          lastName,
-          phone,
-          service,
-          message: message || '',
-          timeSlotId,
-          status: 'confirmed',
-        },
+        data: { firstName, lastName, email, service, message: message || '', timeSlotId, status: 'confirmed' },
       }),
       prisma.timeSlot.update({
         where: { id: timeSlotId },
         data: { isAvailable: false },
       }),
     ])
+
+    // Send confirmation email (non-blocking)
+    const dateLabel = format(new Date(slot.date), 'EEEE d MMMM yyyy', { locale: fr })
+    sendConfirmationEmail({
+      to: email,
+      firstName,
+      date: dateLabel.charAt(0).toUpperCase() + dateLabel.slice(1),
+      startTime: slot.startTime,
+      endTime: slot.endTime,
+      service,
+    }).catch(err => console.error('Email send error:', err))
 
     return NextResponse.json({ success: true, reservationId: reservation.id }, { status: 201 })
   } catch (error) {

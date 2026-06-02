@@ -20,7 +20,7 @@ interface TimeSlot {
 interface FormData {
   firstName: string
   lastName: string
-  phone: string
+  email: string
   service: string
   message: string
 }
@@ -90,7 +90,7 @@ export default function ReserverPage() {
       const res = await fetch('/api/reservations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, timeSlotId: selectedSlot.id }),
+        body: JSON.stringify({ ...data, timeSlotId: selectedSlot.id, email: data.email }),
       })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error || 'Erreur')
@@ -383,22 +383,23 @@ export default function ReserverPage() {
                 </div>
               </div>
 
-              {/* Phone */}
+              {/* Email */}
               <div>
-                <label className="font-dm text-sm text-dark/70 block mb-1.5">Téléphone *</label>
+                <label className="font-dm text-sm text-dark/70 block mb-1.5">Email *</label>
                 <input
-                  {...register('phone', {
+                  {...register('email', {
                     required: 'Requis',
-                    pattern: { value: /^[0-9 +\-().]{8,20}$/, message: 'Numéro invalide' },
+                    pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Email invalide' },
                   })}
-                  type="tel"
+                  type="email"
                   className={cn(
                     'w-full px-4 py-3 rounded-xl border bg-white font-dm text-sm text-dark outline-none transition-all duration-200 focus:border-terracotta focus:ring-2 focus:ring-terracotta/10',
-                    errors.phone ? 'border-red-400' : 'border-chocolate/15'
+                    errors.email ? 'border-red-400' : 'border-chocolate/15'
                   )}
-                  placeholder="06 12 34 56 78"
+                  placeholder="aminata@email.com"
                 />
-                {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
+                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+                <p className="font-dm text-xs text-dark/40 mt-1">Un email de confirmation vous sera envoyé.</p>
               </div>
 
               {/* Service */}

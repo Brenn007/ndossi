@@ -34,7 +34,7 @@ model Reservation {
   id          String   @id @default(cuid())
   firstName   String
   lastName    String
-  phone       String
+  email       String
   service     String
   message     String?
   status      String   @default("confirmed") // confirmed, cancelled
