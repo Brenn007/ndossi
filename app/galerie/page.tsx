@@ -14,20 +14,6 @@ interface GalleryItem {
   imageUrl?: string
 }
 
-const FALLBACK_ITEMS: GalleryItem[] = [
-  { id: 1, title: 'Box Braids Longues', category: 'femmes', gradient: 'from-[#3B1F0E] via-[#C4622D] to-[#D4A853]' },
-  { id: 2, title: 'Tresses Collées Classiques', category: 'femmes', gradient: 'from-[#1A0A00] via-[#3B1F0E] to-[#C4622D]' },
-  { id: 3, title: 'Vanilles Naturelles', category: 'femmes', gradient: 'from-[#C4622D] via-[#D4A853] to-[#FAF7F2]' },
-  { id: 4, title: 'Cornrows Homme', category: 'hommes', gradient: 'from-[#3B1F0E] via-[#1A0A00] to-[#C4622D]' },
-  { id: 5, title: 'Locks Débutantes', category: 'femmes', gradient: 'from-[#D4A853] via-[#C4622D] to-[#3B1F0E]' },
-  { id: 6, title: 'Box Braids Homme', category: 'hommes', gradient: 'from-[#1A0A00] via-[#C4622D] to-[#D4A853]' },
-  { id: 7, title: 'Fulani Braids', category: 'femmes', gradient: 'from-[#C4622D] via-[#3B1F0E] to-[#1A0A00]' },
-  { id: 8, title: 'Cornrows Géométriques', category: 'femmes', gradient: 'from-[#D4A853] via-[#3B1F0E] to-[#C4622D]' },
-  { id: 9, title: 'Locks Entretien', category: 'hommes', gradient: 'from-[#3B1F0E] via-[#D4A853] to-[#1A0A00]' },
-  { id: 10, title: 'Tresses Bohème', category: 'femmes', gradient: 'from-[#FAF7F2] via-[#D4A853] to-[#C4622D]' },
-  { id: 11, title: 'Cornrows Colorés', category: 'femmes', gradient: 'from-[#C4622D] via-[#1A0A00] to-[#3B1F0E]' },
-  { id: 12, title: 'Tresses Viking', category: 'hommes', gradient: 'from-[#1A0A00] via-[#3B1F0E] to-[#D4A853]' },
-]
 
 type Filter = 'tout' | 'femmes' | 'hommes'
 
@@ -105,7 +91,7 @@ function GalleryCard({
 export default function GaleriePage() {
   const [filter, setFilter] = useState<Filter>('tout')
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
-  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(FALLBACK_ITEMS)
+  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([])
   const shouldReduce = useReducedMotion()
 
   useEffect(() => {
@@ -241,6 +227,12 @@ export default function GaleriePage() {
             transition={{ duration: 0.3 }}
             className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4"
           >
+            {filtered.length === 0 && (
+              <div className="col-span-3 text-center py-24">
+                <p className="font-playfair text-2xl text-dark/30 mb-3">La galerie arrive bientôt</p>
+                <p className="font-dm text-sm text-dark/40">Nos réalisations seront bientôt disponibles ici.</p>
+              </div>
+            )}
             {filtered.map((item, i) => (
               <div key={item.id} className="break-inside-avoid mb-4">
                 <GalleryCard
