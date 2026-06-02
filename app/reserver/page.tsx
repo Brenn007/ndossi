@@ -230,48 +230,44 @@ export default function ReserverPage() {
                   const hasSlotsAvailable = hasAvailableSlotOnDate(date)
                   const hasSlotsAll = hasSlotOnDate(date)
                   const isSelected = selectedDate ? isSameDay(date, selectedDate) : false
-                  const isToday = isSameDay(date, today)
+                  const isFullyBooked = !isPast && hasSlotsAll && !hasSlotsAvailable
+                  const isClickable = !isPast && hasSlotsAvailable
 
                   return (
-                    <motion.button
+                    <button
                       key={day}
-                      whileHover={!isPast && hasSlotsAvailable && !shouldReduce ? { scale: 1.1 } : {}}
-                      whileTap={!isPast && hasSlotsAvailable && !shouldReduce ? { scale: 0.95 } : {}}
                       onClick={() => {
-                        if (!isPast && hasSlotsAvailable) {
+                        if (isClickable) {
                           setSelectedDate(date)
                           setSelectedSlot(null)
                         }
                       }}
-                      disabled={isPast || !hasSlotsAvailable}
+                      disabled={!isClickable}
                       className={cn(
-                        'aspect-square flex flex-col items-center justify-center rounded-xl text-sm font-dm transition-all duration-200 relative',
-                        isSelected && 'bg-terracotta text-cream',
-                        !isSelected && !isPast && hasSlotsAvailable && 'hover:bg-terracotta/10 text-dark hover:text-terracotta',
-                        !isSelected && !isPast && !hasSlotsAvailable && hasSlotsAll && 'text-dark/30',
-                        isPast && 'text-dark/20',
-                        !isPast && !hasSlotsAll && 'text-dark/40',
-                        isToday && !isSelected && 'font-bold text-terracotta',
+                        'aspect-square flex items-center justify-center rounded-lg font-dm text-sm transition-colors duration-150',
+                        isSelected && 'bg-terracotta text-cream font-semibold',
+                        !isSelected && isClickable && 'text-dark hover:bg-dark/5',
+                        !isSelected && isFullyBooked && 'text-dark/30 cursor-default',
+                        !isSelected && !isClickable && !isFullyBooked && 'text-dark/20 cursor-default',
                       )}
                     >
-                      <span>{day}</span>
-                      {!isPast && hasSlotsAvailable && !isSelected && (
-                        <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-terracotta" />
-                      )}
-                    </motion.button>
+                      <span className={cn(isFullyBooked && 'line-through')}>
+                        {day}
+                      </span>
+                    </button>
                   )
                 })}
               </div>
 
               {/* Legend */}
-              <div className="flex items-center gap-4 mt-4 pt-4 border-t border-chocolate/5">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full bg-terracotta" />
+              <div className="flex items-center gap-5 mt-4 pt-4 border-t border-chocolate/5">
+                <div className="flex items-center gap-2">
+                  <span className="font-dm text-sm text-dark font-medium">12</span>
                   <span className="font-dm text-xs text-dark/50">Disponible</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full bg-dark/20" />
-                  <span className="font-dm text-xs text-dark/50">Complet / Passé</span>
+                <div className="flex items-center gap-2">
+                  <span className="font-dm text-sm text-dark/30 line-through">12</span>
+                  <span className="font-dm text-xs text-dark/50">Réservé</span>
                 </div>
               </div>
             </div>
