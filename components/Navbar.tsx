@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
@@ -52,23 +53,15 @@ export default function Navbar() {
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="group">
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.2 }}
-              className="flex flex-col leading-none"
-            >
-              <span className={cn(
-                'font-playfair text-xl font-bold tracking-wide transition-colors duration-300',
-                isDark ? 'text-cream' : 'text-dark'
-              )}>
-                ndossi_hair
-              </span>
-              <span className={cn(
-                'text-xs tracking-[0.2em] uppercase transition-colors duration-300',
-                isDark ? 'text-gold' : 'text-terracotta'
-              )}>
-                Salon Afro
-              </span>
+            <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+              <Image
+                src="/logo.png"
+                alt="ndossi_hair"
+                width={52}
+                height={52}
+                className="rounded-full"
+                priority
+              />
             </motion.div>
           </Link>
 
@@ -173,7 +166,7 @@ export default function Navbar() {
                 transition={{ delay: 0.1 }}
                 className="text-center mb-4"
               >
-                <span className="font-playfair text-xl font-bold text-cream">ndossi_hair</span>
+                <Image src="/logo.png" alt="ndossi_hair" width={72} height={72} className="rounded-full mx-auto" />
               </motion.div>
 
               {!pathname.startsWith('/admin') && navLinks.map((link, i) => (
