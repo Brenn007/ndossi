@@ -22,3 +22,6 @@ prisma/*.db-journal
 *.pem
 .vscode/
 tsconfig.tsbuildinfo
+
+# claude
+.claude/
