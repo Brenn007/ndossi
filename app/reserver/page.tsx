@@ -94,13 +94,13 @@ export default function ReserverPage() {
       })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error || 'Erreur')
+      // Refresh slots before showing success so the calendar is already up to date
+      const refreshed = await fetch('/api/timeslots').then(r => r.json())
+      setSlots(refreshed)
       setSuccess(true)
       reset()
       setSelectedDate(null)
       setSelectedSlot(null)
-      // Refresh slots
-      const refreshed = await fetch('/api/timeslots').then(r => r.json())
-      setSlots(refreshed)
     } catch (e: any) {
       setError(e.message)
     } finally {
@@ -259,17 +259,6 @@ export default function ReserverPage() {
                 })}
               </div>
 
-              {/* Legend */}
-              <div className="flex items-center gap-5 mt-4 pt-4 border-t border-chocolate/5">
-                <div className="flex items-center gap-2">
-                  <span className="font-dm text-sm text-dark font-medium">12</span>
-                  <span className="font-dm text-xs text-dark/50">Disponible</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="font-dm text-sm text-dark/30 line-through">12</span>
-                  <span className="font-dm text-xs text-dark/50">Réservé</span>
-                </div>
-              </div>
             </div>
 
             {/* Time slots for selected date */}

@@ -102,7 +102,7 @@ export async function sendConfirmationEmail(params: ConfirmationEmailParams) {
   `.trim()
 
   return getResend().emails.send({
-    from: 'ndossi_hair <noreply@ndossihair.fr>',
+    from: 'ndossi_hair <onboarding@resend.dev>',
     to,
     subject: 'Votre rendez-vous chez ndossi_hair est confirmé ✓',
     html,
