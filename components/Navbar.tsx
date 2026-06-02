@@ -57,8 +57,8 @@ export default function Navbar() {
               <Image
                 src="/logo.png"
                 alt="ndossi_hair"
-                width={72}
-                height={72}
+                width={96}
+                height={96}
                 className="rounded-full"
                 priority
               />
@@ -106,36 +106,14 @@ export default function Navbar() {
 
           {/* Mobile menu button */}
           <button
-            onClick={() => setMobileOpen(!mobileOpen)}
+            onClick={() => setMobileOpen(true)}
             className={cn(
               'md:hidden p-2 rounded-lg transition-colors duration-300',
               isDark ? 'text-cream' : 'text-dark'
             )}
-            aria-label="Toggle menu"
+            aria-label="Ouvrir le menu"
           >
-            <AnimatePresence mode="wait">
-              {mobileOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <X size={24} />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Menu size={24} />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <Menu size={24} />
           </button>
         </nav>
       </motion.header>
@@ -148,8 +126,25 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-dark/98 backdrop-blur-md flex flex-col"
+            className="fixed inset-0 z-[60] bg-[#1A0A00] flex flex-col"
           >
+            {/* Close button */}
+            <div className="flex justify-end px-4 pt-5">
+              <button
+                onClick={() => setMobileOpen(false)}
+                className="p-2 text-cream rounded-lg hover:bg-white/10 transition-colors"
+                aria-label="Fermer le menu"
+              >
+                <motion.div
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <X size={24} />
+                </motion.div>
+              </button>
+            </div>
+
             {/* Top decorative line */}
             <motion.div
               initial={{ scaleX: 0 }}
@@ -166,7 +161,7 @@ export default function Navbar() {
                 transition={{ delay: 0.1 }}
                 className="text-center mb-4"
               >
-                <Image src="/logo.png" alt="ndossi_hair" width={72} height={72} className="rounded-full mx-auto" />
+                <Image src="/logo.png" alt="ndossi_hair" width={80} height={80} className="rounded-full mx-auto" />
               </motion.div>
 
               {!pathname.startsWith('/admin') && navLinks.map((link, i) => (
@@ -180,7 +175,7 @@ export default function Navbar() {
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
                     className={cn(
-                      'font-playfair text-4xl text-cream/70 hover:text-cream transition-colors duration-300',
+                      'font-playfair text-4xl text-cream hover:text-terracotta transition-colors duration-300',
                       pathname === link.href && 'text-terracotta'
                     )}
                   >
