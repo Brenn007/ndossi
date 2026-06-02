@@ -55,12 +55,20 @@ export default function ReserverPage() {
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>()
 
-  useEffect(() => {
-    fetch('/api/timeslots')
+  const fetchSlots = () =>
+    fetch('/api/timeslots', { cache: 'no-store' })
       .then((r) => r.json())
       .then(setSlots)
       .catch(() => setSlots([]))
       .finally(() => setLoading(false))
+
+  useEffect(() => {
+    fetchSlots()
+
+    // Re-fetch when the tab regains focus so admin changes appear immediately
+    const onVisible = () => { if (document.visibilityState === 'visible') fetchSlots() }
+    document.addEventListener('visibilitychange', onVisible)
+    return () => document.removeEventListener('visibilitychange', onVisible)
   }, [])
 
   const slotsForDate = (date: Date) =>
