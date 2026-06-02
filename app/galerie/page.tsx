@@ -1,19 +1,20 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence, useInView, useReducedMotion } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import PageBanner from '@/components/PageBanner'
 
 interface GalleryItem {
-  id: number
+  id: string | number
   title: string
   category: 'femmes' | 'hommes'
   gradient: string
+  imageUrl?: string
 }
 
-const galleryItems: GalleryItem[] = [
+const FALLBACK_ITEMS: GalleryItem[] = [
   { id: 1, title: 'Box Braids Longues', category: 'femmes', gradient: 'from-[#3B1F0E] via-[#C4622D] to-[#D4A853]' },
   { id: 2, title: 'Tresses Collées Classiques', category: 'femmes', gradient: 'from-[#1A0A00] via-[#3B1F0E] to-[#C4622D]' },
   { id: 3, title: 'Vanilles Naturelles', category: 'femmes', gradient: 'from-[#C4622D] via-[#D4A853] to-[#FAF7F2]' },
@@ -55,7 +56,11 @@ function GalleryCard({
         height: index % 3 === 0 ? 320 : index % 3 === 1 ? 240 : 280,
       }}
     >
-      <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient}`} />
+      {item.imageUrl ? (
+        <img src={item.imageUrl} alt={item.title} className="absolute inset-0 w-full h-full object-cover" />
+      ) : (
+        <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient}`} />
+      )}
 
       {/* Overlay */}
       <div className="absolute inset-0 bg-dark/0 group-hover:bg-dark/50 transition-all duration-400" />
@@ -100,7 +105,17 @@ function GalleryCard({
 export default function GaleriePage() {
   const [filter, setFilter] = useState<Filter>('tout')
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(FALLBACK_ITEMS)
   const shouldReduce = useReducedMotion()
+
+  useEffect(() => {
+    fetch('/api/gallery')
+      .then((r) => r.json())
+      .then((data: GalleryItem[]) => {
+        if (Array.isArray(data) && data.length > 0) setGalleryItems(data)
+      })
+      .catch(() => {})
+  }, [])
 
   const filtered = filter === 'tout'
     ? galleryItems
@@ -134,8 +149,11 @@ export default function GaleriePage() {
               onClick={(e) => e.stopPropagation()}
             >
               <div
-                className={`w-full h-96 sm:h-[500px] rounded-2xl bg-gradient-to-br ${currentItem.gradient} relative overflow-hidden`}
+                className={`w-full h-96 sm:h-[500px] rounded-2xl relative overflow-hidden ${!currentItem.imageUrl ? `bg-gradient-to-br ${currentItem.gradient}` : ''}`}
               >
+                {currentItem.imageUrl && (
+                  <img src={currentItem.imageUrl} alt={currentItem.title} className="absolute inset-0 w-full h-full object-cover" />
+                )}
                 <div className="absolute inset-0 opacity-5">
                   <svg width="100%" height="100%">
                     <defs>

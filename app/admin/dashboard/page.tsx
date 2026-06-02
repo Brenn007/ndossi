@@ -1,6 +1,6 @@
 ﻿'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -17,6 +17,7 @@ import {
   Check,
   Loader2,
   AlertCircle,
+  Upload,
 } from 'lucide-react'
 import { format, isSameDay, startOfDay } from 'date-fns'
 import { fr } from 'date-fns/locale'
@@ -83,8 +84,11 @@ export default function DashboardPage() {
   // New gallery form
   const [newImgTitle, setNewImgTitle] = useState('')
   const [newImgCategory, setNewImgCategory] = useState('femmes')
-  const [newImgGradient, setNewImgGradient] = useState('gradient-1')
+  const [newImgFile, setNewImgFile] = useState<File | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [addingImg, setAddingImg] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -159,19 +163,47 @@ export default function DashboardPage() {
     }
   }
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] ?? null
+    setNewImgFile(file)
+    setUploadError(null)
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => setPreviewUrl(reader.result as string)
+      reader.readAsDataURL(file)
+    } else {
+      setPreviewUrl(null)
+    }
+  }
+
   const addImage = async () => {
-    if (!newImgTitle) return
+    if (!newImgTitle || !newImgFile) return
     setAddingImg(true)
+    setUploadError(null)
     try {
+      // 1. Upload file
+      const fd = new FormData()
+      fd.append('file', newImgFile)
+      const uploadRes = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const uploadData = await uploadRes.json()
+      if (!uploadRes.ok) {
+        setUploadError(uploadData.error ?? "Erreur lors de l'upload")
+        return
+      }
+
+      // 2. Create gallery entry
       const res = await fetch('/api/admin/gallery', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: newImgTitle, category: newImgCategory, gradient: newImgGradient }),
+        body: JSON.stringify({ title: newImgTitle, category: newImgCategory, imageUrl: uploadData.url }),
       })
       if (res.ok) {
         const img = await res.json()
         setGallery((g) => [...g, img])
         setNewImgTitle('')
+        setNewImgFile(null)
+        setPreviewUrl(null)
+        if (fileInputRef.current) fileInputRef.current.value = ''
       }
     } finally {
       setAddingImg(false)
@@ -507,7 +539,7 @@ export default function DashboardPage() {
             {/* Add image form */}
             <div className="bg-white rounded-2xl border border-chocolate/10 p-6 mb-8">
               <h3 className="font-dm font-semibold text-dark mb-4">Ajouter une image</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                 <div>
                   <label className="font-dm text-xs text-dark/50 block mb-1">Titre</label>
                   <input
@@ -528,29 +560,67 @@ export default function DashboardPage() {
                     <option value="hommes">Hommes</option>
                   </select>
                 </div>
-                <div>
-                  <label className="font-dm text-xs text-dark/50 block mb-1">Dégradé</label>
-                  <select
-                    value={newImgGradient}
-                    onChange={(e) => setNewImgGradient(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-xl border border-chocolate/15 bg-cream font-dm text-sm text-dark outline-none focus:border-terracotta"
+              </div>
+
+              {/* File picker */}
+              <div className="mb-4">
+                <label className="font-dm text-xs text-dark/50 block mb-1">Photo (JPG, PNG, WebP — max 5 Mo)</label>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={handleFileChange}
+                  className="hidden"
+                  id="gallery-file-input"
+                />
+                <div className="flex items-start gap-4">
+                  <label
+                    htmlFor="gallery-file-input"
+                    className={cn(
+                      'flex flex-col items-center justify-center w-40 h-28 rounded-xl border-2 border-dashed cursor-pointer transition-colors',
+                      previewUrl
+                        ? 'border-terracotta/40 bg-terracotta/5'
+                        : 'border-chocolate/20 bg-cream hover:border-terracotta/40 hover:bg-terracotta/5'
+                    )}
                   >
-                    {GRADIENTS.map((g) => (
-                      <option key={g.value} value={g.value}>{g.label}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="flex items-end">
-                  <button
-                    onClick={addImage}
-                    disabled={!newImgTitle || addingImg}
-                    className="w-full bg-terracotta text-cream px-4 py-2.5 rounded-xl font-dm text-sm flex items-center justify-center gap-2 hover:bg-terracotta-dark transition-colors disabled:opacity-50"
-                  >
-                    {addingImg ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
-                    Ajouter
-                  </button>
+                    {previewUrl ? (
+                      <img src={previewUrl} alt="preview" className="w-full h-full object-cover rounded-xl" />
+                    ) : (
+                      <>
+                        <Upload size={20} className="text-dark/30 mb-1" />
+                        <span className="font-dm text-xs text-dark/40 text-center px-2">Cliquer pour choisir</span>
+                      </>
+                    )}
+                  </label>
+                  {newImgFile && (
+                    <div className="flex flex-col justify-center gap-1 pt-1">
+                      <p className="font-dm text-xs text-dark/70 font-medium">{newImgFile.name}</p>
+                      <p className="font-dm text-xs text-dark/40">{(newImgFile.size / 1024).toFixed(0)} Ko</p>
+                      <button
+                        onClick={() => { setNewImgFile(null); setPreviewUrl(null); if (fileInputRef.current) fileInputRef.current.value = '' }}
+                        className="text-xs text-red-400 hover:text-red-600 font-dm flex items-center gap-1 mt-1"
+                      >
+                        <X size={10} /> Retirer
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
+
+              {uploadError && (
+                <p className="font-dm text-xs text-red-500 mb-3 flex items-center gap-1">
+                  <AlertCircle size={12} /> {uploadError}
+                </p>
+              )}
+
+              <button
+                onClick={addImage}
+                disabled={!newImgTitle || !newImgFile || addingImg}
+                className="bg-terracotta text-cream px-6 py-2.5 rounded-xl font-dm text-sm flex items-center gap-2 hover:bg-terracotta-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {addingImg ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
+                {addingImg ? 'Upload en cours...' : 'Ajouter à la galerie'}
+              </button>
             </div>
 
             {/* Gallery grid */}
@@ -561,10 +631,19 @@ export default function DashboardPage() {
                 </p>
               )}
               {gallery.map((img) => (
-                <div key={img.id} className="relative group rounded-2xl overflow-hidden" style={{ height: 180 }}>
-                  <div className={`absolute inset-0 ${img.gradient}`} />
+                <div key={img.id} className="relative group rounded-2xl overflow-hidden bg-dark/5" style={{ height: 180 }}>
+                  {img.imageUrl ? (
+                    <img
+                      src={img.imageUrl}
+                      alt={img.title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className={`absolute inset-0 ${img.gradient}`} />
+                  )}
+                  <div className="absolute inset-0 bg-dark/20 group-hover:bg-dark/40 transition-colors duration-200" />
                   <div className="absolute inset-0 p-4 flex flex-col justify-between">
-                    <span className="self-start bg-dark/30 text-cream/80 font-dm text-xs px-2 py-1 rounded-lg">
+                    <span className="self-start bg-dark/40 text-cream/90 font-dm text-xs px-2 py-1 rounded-lg backdrop-blur-sm">
                       {img.category === 'femmes' ? 'Femmes' : 'Hommes'}
                     </span>
                     <div>
