@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { supabaseAdmin } from '@/lib/supabase-admin'
+import { getSupabaseAdmin } from '@/lib/supabase-admin'
+
+export const dynamic = 'force-dynamic'
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp']
 const MAX_SIZE = 5 * 1024 * 1024 // 5 Mo
@@ -26,14 +28,15 @@ export async function POST(req: NextRequest) {
     const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
 
     const buffer = Buffer.from(await file.arrayBuffer())
+    const supabase = getSupabaseAdmin()
 
-    const { error: uploadError } = await supabaseAdmin.storage
+    const { error: uploadError } = await supabase.storage
       .from('gallery')
       .upload(filename, buffer, { contentType: file.type, upsert: false })
 
     if (uploadError) throw uploadError
 
-    const { data: { publicUrl } } = supabaseAdmin.storage
+    const { data: { publicUrl } } = supabase.storage
       .from('gallery')
       .getPublicUrl(filename)
 
