@@ -57,8 +57,8 @@ export default function Navbar() {
               <Image
                 src="/logo.png"
                 alt="ndossi_hair"
-                width={52}
-                height={52}
+                width={72}
+                height={72}
                 className="rounded-full"
                 priority
               />
