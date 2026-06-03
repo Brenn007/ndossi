@@ -21,7 +21,7 @@ const reasons = [
     icon: Sparkles,
     number: '03',
     title: 'Style Personnalisé',
-    description: 'Chaque cliente est unique. Nous prenons le temps d\'échanger sur vos envies pour créer une coiffure qui vous ressemble.',
+    description: 'Chaque client(e) est unique. Nous prenons le temps d\'échanger sur vos envies pour créer une coiffure qui vous ressemble.',
   },
   {
     icon: Clock,
