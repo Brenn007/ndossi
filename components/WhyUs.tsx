@@ -9,7 +9,7 @@ const reasons = [
     icon: Heart,
     number: '01',
     title: 'Passion & Expertise',
-    description: 'Chaque tresse est réalisée avec amour et un savoir-faire acquis au fil des années, dans le respect des techniques africaines authentiques.',
+    description: 'Chaque tresse est réalisée avec amour et un savoir-faire acquis au fil des années, dans le respect des techniques afro authentiques.',
   },
   {
     icon: Shield,

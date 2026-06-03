@@ -108,7 +108,7 @@ export default function Hero() {
           className="flex items-center gap-3 mb-5"
         >
           <div className="w-8 h-px bg-terracotta/60" />
-          <span className="text-cream/50 font-dm text-xs tracking-[0.3em] uppercase">L&apos;art des tresses africaines</span>
+          <span className="text-cream/50 font-dm text-xs tracking-[0.3em] uppercase">L&apos;art des tresses afro</span>
           <div className="w-8 h-px bg-terracotta/60" />
         </motion.div>
 
@@ -149,7 +149,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 2.5 }}
           className="font-dm text-cream/60 text-base sm:text-lg md:text-xl max-w-xl mb-10 leading-relaxed"
         >
-          Spécialiste des tresses africaines — box braids, tresses collées, vanilles, cornrows, locks et bien plus encore.
+          Spécialiste des tresses afro — box braids, tresses collées, vanilles, cornrows, locks et bien plus encore.
         </motion.p>
 
         {/* Dual CTA */}

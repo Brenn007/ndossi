@@ -29,10 +29,10 @@ export const metadata: Metadata = {
     template: "%s | ndossi_hair",
   },
   description:
-    "ndossi_hair, salon spécialisé en tresses africaines : box braids, tresses collées, vanilles, cornrows, locks. Réservez votre créneau en ligne.",
+    "ndossi_hair, salon spécialisé en tresses afro : box braids, tresses collées, vanilles, cornrows, locks. Réservez votre créneau en ligne.",
   keywords: [
     'salon coiffure afro',
-    'tresses africaines',
+    'tresses afro',
     'box braids',
     'tresses collées',
     'vanilles',
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "ndossi_hair — Salon de Coiffure Afro Spécialisé",
-    description: "Spécialiste des tresses africaines. Box braids, vanilles, locks, cornrows et plus.",
+    description: "Spécialiste des tresses afro. Box braids, vanilles, locks, cornrows et plus.",
     type: 'website',
     locale: 'fr_FR',
   },

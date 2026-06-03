@@ -51,7 +51,7 @@ export default function Footer() {
               <p className="text-cream/35 font-dm text-xs tracking-[0.2em] uppercase mt-0.5">Salon de Coiffure Afro</p>
             </Link>
             <p className="font-dm text-sm text-cream/40 leading-relaxed max-w-xs">
-              Spécialiste des tresses africaines à Toulouse. Un espace chaleureux où chaque coiffure est une œuvre d&apos;art.
+              Spécialiste des tresses afro à Toulouse. Un espace chaleureux où chaque coiffure est une œuvre d&apos;art.
             </p>
           </motion.div>
 
