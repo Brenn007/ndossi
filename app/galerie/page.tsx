@@ -80,10 +80,6 @@ function GalleryCard({
         </motion.div>
       </div>
 
-      {/* Zoom icon */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-cream rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <span className="text-terracotta text-lg">+</span>
-      </div>
     </motion.div>
   )
 }
