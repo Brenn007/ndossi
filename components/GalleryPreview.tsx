@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { motion, useInView, useReducedMotion } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 
 interface GalleryItem {
@@ -19,7 +19,6 @@ const FALLBACK_GRADIENT = 'from-[#3B1F0E] via-[#C4622D] to-[#D4A853]'
 function GalleryCard({ item, index, size }: { item: GalleryItem; index: number; size: string }) {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-50px' })
-  const shouldReduce = useReducedMotion()
 
   const isTall = size === 'tall'
   const isWide = size === 'wide'
@@ -30,23 +29,17 @@ function GalleryCard({ item, index, size }: { item: GalleryItem; index: number; 
       initial={{ opacity: 0, scale: 0.94, y: 20 }}
       animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
       transition={{ duration: 0.65, delay: index * 0.07, ease: [0.33, 1, 0.68, 1] }}
-      className={`relative overflow-hidden rounded-2xl group cursor-pointer ${
+      className={`relative overflow-hidden rounded-2xl ${
         isTall ? 'row-span-2' : ''
       } ${isWide ? 'col-span-2 sm:col-span-1 lg:col-span-2' : ''}`}
       style={{ minHeight: isTall ? '420px' : '190px' }}
-      whileHover={shouldReduce ? {} : { scale: 1.01 }}
     >
       {item.imageUrl ? (
-        <img
-          src={item.imageUrl}
-          alt={item.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
+        <img src={item.imageUrl} alt={item.title} className="absolute inset-0 w-full h-full object-cover" />
       ) : (
-        <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient || FALLBACK_GRADIENT} transition-transform duration-700 group-hover:scale-105`} />
+        <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient || FALLBACK_GRADIENT}`} />
       )}
 
-      {/* Dot pattern overlay */}
       {!item.imageUrl && (
         <div className="absolute inset-0 opacity-[0.07]">
           <svg width="100%" height="100%">
@@ -60,27 +53,13 @@ function GalleryCard({ item, index, size }: { item: GalleryItem; index: number; 
         </div>
       )}
 
-      <div className="absolute inset-0 bg-dark/0 group-hover:bg-dark/50 transition-colors duration-400" />
+      <div className="absolute inset-0 bg-dark/20" />
 
-      <div className="absolute top-4 left-4 z-10">
+      <div className="absolute bottom-4 left-4 z-10">
         <span className="bg-dark/30 backdrop-blur-sm text-cream/90 font-dm text-xs px-3 py-1.5 rounded-full tracking-wider border border-white/10">
           {item.category === 'femmes' ? 'Femmes' : item.category === 'hommes' ? 'Hommes' : item.category}
         </span>
-      </div>
-
-      <motion.div className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <ArrowUpRight size={14} className="text-cream" />
-      </motion.div>
-
-      <div className="absolute inset-0 flex flex-col justify-end p-5 z-10 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-350">
-        <span className="font-dm text-xs text-gold/80 tracking-widest uppercase mb-1">
-          {item.category === 'femmes' ? 'Femmes' : item.category === 'hommes' ? 'Hommes' : item.category}
-        </span>
-        <h3 className="font-playfair text-lg text-cream font-bold leading-tight">{item.title}</h3>
-        <div className="mt-3 flex items-center gap-2 text-cream/60 font-dm text-xs">
-          <span>Voir plus</span>
-          <span>→</span>
-        </div>
+        <h3 className="font-playfair text-sm text-cream font-bold mt-1.5 leading-tight drop-shadow">{item.title}</h3>
       </div>
     </motion.div>
   )
