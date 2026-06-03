@@ -24,7 +24,7 @@ export const SERVICES = [
   'Vanilles',
   'Fulani Braids',
   'Nattes',
-  'Locs Crochet',
+  'Locks Crochet',
   'Vanilles & Barrel Twist Homme',
 ] as const
 

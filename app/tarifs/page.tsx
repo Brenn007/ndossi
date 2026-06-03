@@ -55,8 +55,8 @@ const femmesPrestations = [
 ]
 
 const extras = [
-  { name: 'Locs Crochet', price: '60€', note: null },
-  { name: '+ option Boho', price: '+5€', note: 'En supplément des Locs Crochet' },
+  { name: 'Locks Crochet', price: '60€', note: null },
+  { name: '+ option Boho', price: '+5€', note: 'En supplément des Locks Crochet' },
 ]
 
 const hommesPrestations = [
@@ -301,7 +301,7 @@ export default function TarifsPage() {
           >
             <div className="px-6 py-4 border-b border-gold/15 flex items-center gap-2">
               <span className="text-gold text-lg">◎</span>
-              <h3 className="font-playfair text-lg font-bold text-dark">Locs & Options</h3>
+              <h3 className="font-playfair text-lg font-bold text-dark">Locks & Options</h3>
             </div>
             <table className="w-full">
               <tbody>

@@ -58,7 +58,7 @@ const services: Service[] = [
     index: '04',
   },
   {
-    title: 'Locs Crochet',
+    title: 'Locks Crochet',
     description: 'Locks au crochet pour un résultat naturel et immédiat. Option Boho disponible en supplément.',
     icon: '◎',
     gradient: 'from-gold/20 to-chocolate/20',
