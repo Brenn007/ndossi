@@ -6,6 +6,8 @@ import GalleryPreview from '@/components/GalleryPreview'
 import WhyUs from '@/components/WhyUs'
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: "ndossi_hair — Salon de Coiffure Afro Spécialisé",
 }

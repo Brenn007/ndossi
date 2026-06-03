@@ -71,7 +71,7 @@ export default function GalleryPreview() {
   const [items, setItems] = useState<GalleryItem[]>([])
 
   useEffect(() => {
-    fetch('/api/gallery')
+    fetch('/api/gallery', { cache: 'no-store' })
       .then((r) => r.json())
       .then((data: GalleryItem[]) => {
         if (Array.isArray(data)) setItems(data.slice(0, 6))
