@@ -25,7 +25,7 @@ function FloatingShape({ x, y, size, opacity }: { x: number; y: number; size: nu
   )
 }
 
-export default function Hero() {
+export default function Hero({ bgImage }: { bgImage?: string | null }) {
   const ref = useRef<HTMLDivElement>(null)
   const shouldReduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
@@ -61,27 +61,39 @@ export default function Hero() {
 
   return (
     <div ref={ref} className="relative h-screen min-h-[600px] overflow-hidden">
-      {/* Background gradient */}
+      {/* Background */}
       <motion.div className="absolute inset-0" style={{ y: bgY }}>
-        <div className="absolute inset-0 bg-gradient-to-br from-dark via-chocolate to-dark" />
-        <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent" />
-
-        {/* Decorative SVG pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="braid-pattern" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
-                <path d="M30 0 Q45 15 30 30 Q15 45 30 60" stroke="#D4A853" strokeWidth="1" fill="none" />
-                <path d="M0 30 Q15 15 30 30 Q45 45 60 30" stroke="#C4622D" strokeWidth="1" fill="none" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#braid-pattern)" />
-          </svg>
-        </div>
-
-        {!shouldReduceMotion && shapes.map((s, i) => (
-          <FloatingShape key={i} {...s} />
-        ))}
+        {bgImage ? (
+          <>
+            <img
+              src={bgImage}
+              alt="ndossi_hair"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-dark/55" />
+            <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/20 to-transparent" />
+          </>
+        ) : (
+          <>
+            <div className="absolute inset-0 bg-gradient-to-br from-dark via-chocolate to-dark" />
+            <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent" />
+            <div className="absolute inset-0 opacity-5">
+              <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <pattern id="braid-pattern" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+                    <path d="M30 0 Q45 15 30 30 Q15 45 30 60" stroke="#D4A853" strokeWidth="1" fill="none" />
+                    <path d="M0 30 Q15 15 30 30 Q45 45 60 30" stroke="#C4622D" strokeWidth="1" fill="none" />
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#braid-pattern)" />
+              </svg>
+            </div>
+            {!shouldReduceMotion && shapes.map((s, i) => (
+              <FloatingShape key={i} {...s} />
+            ))}
+          </>
+        )}
       </motion.div>
 
       {/* Mouse parallax layer */}
