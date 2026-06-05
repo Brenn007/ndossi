@@ -5,10 +5,11 @@ export const dynamic = 'force-dynamic'
 
 export async function GET() {
   try {
-    const now = new Date()
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
     const slots = await prisma.timeSlot.findMany({
       where: {
-        date: { gte: now },
+        date: { gte: today },
       },
       orderBy: { date: 'asc' },
       include: {
