@@ -38,12 +38,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Hide default cursor on desktop */
-@media (pointer: fine) {
-  * {
-    cursor: none !important;
-  }
-}
 
 /* ============================================
    LENIS SMOOTH SCROLL
