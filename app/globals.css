@@ -23,11 +23,6 @@
    ============================================ */
 * {
   box-sizing: border-box;
-  cursor: url('/cursor.svg') 4 2, default !important;
-}
-
-a, button, [role="button"], label, select, input[type="submit"], input[type="button"] {
-  cursor: url('/cursor.svg') 4 2, pointer !important;
 }
 
 html {
