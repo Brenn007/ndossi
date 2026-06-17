@@ -46,25 +46,8 @@ npm run db:seed
 npm run dev
 ```
 
-Le site est accessible sur [http://localhost:3000](http://localhost:3000).
+Le site est accessible sur https://ndossi.vercel.app/
 
-## Accès administration
-
-- URL : [http://localhost:3000/admin](http://localhost:3000/admin)
-- Email : `admin@ndossihair.fr`
-- Mot de passe : `admin123`
-
-## Changer le mot de passe admin
-
-1. Ouvrez `prisma/seed.ts`
-2. Modifiez la valeur dans `.env` : `ADMIN_PASSWORD="nouveaumotdepasse"`
-3. Relancez `npm run db:seed`
-
-Ou utilisez Prisma Studio :
-
-```bash
-npm run db:studio
-```
 
 ## Fonctionnalités
 
@@ -79,19 +62,7 @@ npm run db:studio
 - **Réservations** : Tableau clients avec annulation possible
 - **Galerie** : Ajout / suppression d'images avec catégorie et dégradé
 
-## Déploiement
 
-### Vercel + Railway (recommandé)
-
-1. **Base de données** : Créez un projet sur [Railway](https://railway.app) avec PostgreSQL ou utilisez [PlanetScale](https://planetscale.com)
-2. **Changez le provider Prisma** dans `prisma/schema.prisma` : `provider = "postgresql"`
-3. **Déployez** sur [Vercel](https://vercel.com) en connectant votre repo GitHub
-4. **Variables d'environnement** à définir sur Vercel :
-   - `DATABASE_URL` (URL de votre base de données)
-   - `NEXTAUTH_URL` (URL de votre site en production)
-   - `NEXTAUTH_SECRET` (clé secrète — générez avec `openssl rand -base64 32`)
-   - `ADMIN_EMAIL`
-   - `ADMIN_PASSWORD`
 
 ### Variables d'environnement requises
 
